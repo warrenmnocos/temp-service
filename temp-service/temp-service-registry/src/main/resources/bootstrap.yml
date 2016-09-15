@@ -1,0 +1,49 @@
+spring:
+    profiles: default
+    application:
+        name: registry
+    cloud:
+        config:
+            uri: http://localhost:8080
+            failFast: true
+            password: 1234
+            username: user
+            
+---
+spring:
+    profiles: development
+    application:
+        name: registry
+security:
+    user:
+        password: none
+server:
+    port: 8081
+    context-path: /registry
+    address: localhost
+management:
+  context-path: /registry
+
+---
+spring:
+    profiles: integration
+    application:
+        name: registry
+eureka:
+    instance:
+        protocol: http
+        ip-address: localhost
+        port: 8081
+        context-path: /registry
+        prefer-ip-address: true
+        hostname: localhost
+    client:
+        service-url:
+            defaultZone: ${eureka.instance.protocol}://${eureka.instance.ip-address}:${eureka.instance.port}${eureka.instance.context-path}/eureka/
+        register-with-eureka: false
+        fetch-registry: false
+    
+---
+spring:
+    profiles:
+        active: development, integration

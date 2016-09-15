@@ -1,0 +1,52 @@
+spring:
+    profiles: default
+    application:
+        name: red
+    cloud:
+        config:
+            uri: http://localhost:8080
+            failFast: true
+            password: 1234
+            username: user
+            
+---
+spring:
+    profiles: development
+    application:
+        name: red
+    jpa:
+        show-sql: true
+        database: h2
+        generate-ddl: true
+    datasource:
+        hikari:
+            maximum-pool-size: 20
+            pool-name: datasource-development
+server:
+    port: 8083
+    context-path: /red
+    address: localhost
+    use-forward-headers: true
+logging:
+    level.org.springframework.security: DEBUG
+
+---    
+spring:
+    profiles: integration
+    application:
+        name: red
+eureka:
+    instance:
+        protocol: http
+        ip-address: localhost
+        port: 8081
+        context-path: /registry
+        hostname: localhost
+    client:
+        service-url:
+            defaultZone: ${eureka.instance.protocol}://${eureka.instance.ip-address}:${eureka.instance.port}${eureka.instance.context-path}/eureka/
+    
+---
+spring:
+    profiles:
+        active: development, integration
