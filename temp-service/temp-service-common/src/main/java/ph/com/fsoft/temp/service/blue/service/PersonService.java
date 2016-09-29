@@ -6,14 +6,15 @@
 package ph.com.fsoft.temp.service.blue.service;
 
 import java.util.HashSet;
-import ph.com.fsoft.temp.service.blue.model.domain.Person;
-import ph.com.fsoft.temp.service.blue.model.domain.PersonDto;
+import javax.jws.WebService;
+import ph.com.fsoft.temp.service.blue.model.PersonDto;
 
 /**
  * The service interface
  *
  * @author warren.nocos
  */
+@WebService
 public interface PersonService {
 
     /**
@@ -23,11 +24,11 @@ public interface PersonService {
      * @param firstName the first name to be queried.
      * @return the person objects having that first name.
      */
-    HashSet<Person> findByLastName(String firstName);
+    HashSet<PersonDto> findByLastName(String firstName);
 
-    HashSet<Person> findAll();
+    HashSet<PersonDto> findAll();
 
-    Person findById(long id);
+    PersonDto findById(long id);
 
     void savePerson(PersonDto person);
 

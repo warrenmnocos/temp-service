@@ -11,9 +11,10 @@ import java.util.stream.StreamSupport;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ph.com.fsoft.temp.service.blue.model.PersonDto;
+import ph.com.fsoft.temp.service.blue.service.PersonService;
 import ph.com.fsoft.temp.service.red.model.PersonColor;
 import ph.com.fsoft.temp.service.red.model.dto.PersonColorDto;
-import ph.com.fsoft.temp.service.red.model.dto.PersonDto;
 import ph.com.fsoft.temp.service.red.repository.PersonColorRepository;
 
 /**
@@ -41,8 +42,7 @@ public class PersonColorServiceImpl implements PersonColorService {
     public HashSet<PersonColorDto> findAll() {
         return StreamSupport.stream(personColorRepository.findAll().spliterator(), false)
                 .map(personColor -> {
-                    PersonDto personDto = personService.findById(personColor.getId())
-                            .orElseThrow(() -> new RuntimeException("Person associated with provided id is not found."));
+                    PersonDto personDto = personService.findById(personColor.getId());
                     return new PersonColorDto(personDto, personColor.getColor());
                 })
                 .collect(Collectors.toCollection(HashSet::new));
@@ -52,8 +52,7 @@ public class PersonColorServiceImpl implements PersonColorService {
     public HashSet<PersonColorDto> findByColor(String color) {
         return personColorRepository.findByColor(color)
                 .map(personColor -> {
-                    PersonDto personDto = personService.findById(personColor.getId())
-                            .orElseThrow(() -> new RuntimeException("Person associated with provided id is not found."));
+                    PersonDto personDto = personService.findById(personColor.getId());
                     return new PersonColorDto(personDto, personColor.getColor());
                 })
                 .collect(Collectors.toCollection(HashSet::new));
@@ -62,7 +61,7 @@ public class PersonColorServiceImpl implements PersonColorService {
     @Override
     @Transactional
     public void savePersonColor(long personId, String color) {
-        if (personService.findById(personId).isPresent()) {
+        if (personService.findById(personId) != null) {
             personColorRepository.save(new PersonColor(personId, color));
         } else {
             throw new RuntimeException("Person associated with provided id is not found.");

@@ -6,13 +6,14 @@
 package ph.com.fsoft.temp.service.red.service;
 
 import java.util.HashSet;
-import java.util.Optional;
 import javax.inject.Inject;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import ph.com.fsoft.temp.service.red.model.dto.PersonDto;
+import ph.com.fsoft.temp.service.blue.model.PersonDto;
+import ph.com.fsoft.temp.service.blue.service.PersonService;
 
 /**
  * Service implementation. Use {@link Transactional#readOnly() } set to true,
@@ -21,6 +22,7 @@ import ph.com.fsoft.temp.service.red.model.dto.PersonDto;
  * @author warren.nocos
  */
 @Service
+@Profile("rest")
 public class PersonServiceImpl implements PersonService {
 
     protected final RestTemplate restTemplate;
@@ -39,10 +41,10 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Optional<PersonDto> findById(long id) {
+    public PersonDto findById(long id) {
         UriComponentsBuilder uri = UriComponentsBuilder.fromHttpUrl("http://blue/blue/api/rest/person")
                 .queryParam("id", id);
-        return Optional.ofNullable(restTemplate.getForObject(uri.build().toUri(), PersonDto.class));
+        return restTemplate.getForObject(uri.build().toUri(), PersonDto.class);
     }
 
     @Override
@@ -50,6 +52,16 @@ public class PersonServiceImpl implements PersonService {
         UriComponentsBuilder uri = UriComponentsBuilder.fromHttpUrl("http://blue/blue/api/rest/person")
                 .queryParam("firstName", firstName);
         return restTemplate.getForObject(uri.build().toUri(), HashSet.class);
+    }
+
+    @Override
+    public HashSet<PersonDto> findAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void savePerson(PersonDto person) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

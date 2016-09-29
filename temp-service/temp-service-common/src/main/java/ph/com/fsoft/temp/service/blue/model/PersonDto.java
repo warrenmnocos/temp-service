@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ph.com.fsoft.temp.service.red.model.dto;
+package ph.com.fsoft.temp.service.blue.model;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -16,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * Simple domain model, person :)
+ * Simple model, person :)
  *
  * @author warren.nocos
  */
@@ -32,36 +31,33 @@ public class PersonDto
     protected long id;
 
     @XmlElement
-    @NotNull
     protected String firstName;
 
     @XmlElement
-    @NotNull
     protected String middleName;
 
     @XmlElement
-    @NotNull
     protected String lastName;
 
     public PersonDto() {
         firstName = middleName = lastName = "";
     }
 
-    public PersonDto(String firstName, String middleName, String lastName) {
+    public PersonDto(long id, String firstName, String middleName, String lastName) {
+        this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
     }
 
     @Override
-    public int compareTo(PersonDto otherPersonDto) {
-        return Long.compare(id, otherPersonDto.id);
+    public int compareTo(PersonDto otherPerson) {
+        return toString().compareTo(otherPerson.toString());
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 53 * hash + (int) (this.id ^ (this.id >>> 32));
         hash = 53 * hash + Objects.hashCode(this.firstName);
         hash = 53 * hash + Objects.hashCode(this.middleName);
         hash = 53 * hash + Objects.hashCode(this.lastName);
@@ -80,9 +76,6 @@ public class PersonDto
             return false;
         }
         final PersonDto other = (PersonDto) obj;
-        if (this.id != other.id) {
-            return false;
-        }
         if (!Objects.equals(this.firstName, other.firstName)) {
             return false;
         }
@@ -90,14 +83,6 @@ public class PersonDto
             return false;
         }
         return Objects.equals(this.lastName, other.lastName);
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -126,7 +111,7 @@ public class PersonDto
 
     @Override
     public String toString() {
-        return "Blue{" + "id=" + id + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName=" + lastName + '}';
+        return "PersonDto{" + "firstName=" + firstName + ", middleName=" + middleName + ", lastName=" + lastName + '}';
     }
 
 }

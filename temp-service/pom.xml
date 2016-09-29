@@ -26,6 +26,7 @@
         <module>temp-service-registry</module>
         <module>temp-service-blue</module>
         <module>temp-service-red</module>
+        <module>temp-service-common</module>
     </modules>
     
     <dependencies>

@@ -11,8 +11,8 @@ import java.util.stream.StreamSupport;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ph.com.fsoft.temp.service.blue.model.PersonDto;
 import ph.com.fsoft.temp.service.blue.model.domain.Person;
-import ph.com.fsoft.temp.service.blue.model.domain.PersonDto;
 import ph.com.fsoft.temp.service.blue.repository.PersonRepository;
 
 /**
@@ -41,19 +41,25 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public HashSet<Person> findAll() {
+    public HashSet<PersonDto> findAll() {
         return StreamSupport.stream(personRepository.findAll().spliterator(), false)
+                .map(person -> new PersonDto(person.getId(), person.getFirstName(),
+                        person.getMiddleName(), person.getLastName()))
                 .collect(Collectors.toCollection(HashSet::new));
     }
 
     @Override
-    public Person findById(long id) {
-        return personRepository.findOne(id);
+    public PersonDto findById(long id) {
+        Person person = personRepository.findOne(id);
+        return new PersonDto(person.getId(), person.getFirstName(),
+                person.getMiddleName(), person.getLastName());
     }
 
     @Override
-    public HashSet<Person> findByLastName(String firstName) {
+    public HashSet<PersonDto> findByLastName(String firstName) {
         return personRepository.findByLastName(firstName)
+                .map(person -> new PersonDto(person.getId(), person.getFirstName(),
+                        person.getMiddleName(), person.getLastName()))
                 .collect(Collectors.toCollection(HashSet::new));
     }
 

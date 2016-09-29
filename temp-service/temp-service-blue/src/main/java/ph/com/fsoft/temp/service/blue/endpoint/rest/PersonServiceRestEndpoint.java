@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ph.com.fsoft.temp.service.blue.model.domain.Person;
-import ph.com.fsoft.temp.service.blue.model.domain.PersonDto;
+import ph.com.fsoft.temp.service.blue.model.PersonDto;
 import ph.com.fsoft.temp.service.blue.service.PersonService;
 import ph.com.fsoft.temp.service.blue.service.PersonServiceImpl;
 
@@ -44,19 +43,19 @@ public class PersonServiceRestEndpoint implements PersonService {
 
     @Override
     @RequestMapping(params = "id")
-    public Person findById(@RequestParam("id") long id) {
+    public PersonDto findById(@RequestParam("id") long id) {
         return personService.findById(id);
     }
 
     @Override
     @RequestMapping("all")
-    public HashSet<Person> findAll() {
+    public HashSet<PersonDto> findAll() {
         return personService.findAll();
     }
 
     @Override
     @RequestMapping(params = "lastName")
-    public HashSet<Person> findByLastName(
+    public HashSet<PersonDto> findByLastName(
             @RequestParam("lastName") String lastName) {
         return personService.findByLastName(lastName);
     }

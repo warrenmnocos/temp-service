@@ -7,11 +7,9 @@ package ph.com.fsoft.temp.service.blue.endpoint.soap;
 
 import java.util.HashSet;
 import javax.inject.Named;
-import javax.jws.WebMethod;
 import javax.jws.WebService;
 import org.springframework.stereotype.Service;
-import ph.com.fsoft.temp.service.blue.model.domain.Person;
-import ph.com.fsoft.temp.service.blue.model.domain.PersonDto;
+import ph.com.fsoft.temp.service.blue.model.PersonDto;
 import ph.com.fsoft.temp.service.blue.service.PersonService;
 
 /**
@@ -32,25 +30,21 @@ public class PersonServiceSoapEndpoint implements PersonService {
     }
 
     @Override
-    @WebMethod
-    public Person findById(long id) {
-        return personService.findById(id);
-    }
-
-    @Override
-    @WebMethod
-    public HashSet<Person> findAll() {
-        return personService.findAll();
-    }
-
-    @Override
-    @WebMethod
-    public HashSet<Person> findByLastName(String firstName) {
+    public HashSet<PersonDto> findByLastName(String firstName) {
         return personService.findByLastName(firstName);
     }
 
     @Override
-    @WebMethod
+    public HashSet<PersonDto> findAll() {
+        return personService.findAll();
+    }
+
+    @Override
+    public PersonDto findById(long id) {
+        return personService.findById(id);
+    }
+
+    @Override
     public void savePerson(PersonDto person) {
         personService.savePerson(person);
     }
